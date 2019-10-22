@@ -11,7 +11,7 @@ const WeatherListDay = ({ dayData }) => {
 	const day = moment.unix(dayData.dt).format('D MMMM');
 	const time = moment.unix(dayData.dt).format('HH:mm');
 	const weatherId = dayData.weather[0].id;
-	const weaterDecription = dayData.weather[0].description;
+	const weatherDecription = dayData.weather[0].description;
 	const temp = Math.round(dayData.main.temp);
 
 	const useStyles = makeStyles((theme) => ({
@@ -19,7 +19,7 @@ const WeatherListDay = ({ dayData }) => {
 			color: '#fff'
 		},
 		dayItem: {
-			margin: 4
+			margin: 12
 		}
 	}));
 
@@ -27,15 +27,7 @@ const WeatherListDay = ({ dayData }) => {
 
 	return (
 		<React.Fragment>
-			<Grid
-				item
-				xs={4}
-				container
-				direction="column"
-				justify="space-between"
-				alignItems="center"
-				className={classes.day}
-			>
+			<Grid item xs={4} container direction="column" justify="center" alignItems="center" className={classes.day}>
 				<Grid item xs className={classes.dayItem}>
 					{day}
 				</Grid>
@@ -47,7 +39,7 @@ const WeatherListDay = ({ dayData }) => {
 				<Grid item>
 					<i className={`owf owf-${weatherId} owf-2x`} />
 				</Grid>
-				<Grid item>{weaterDecription}</Grid>
+				<Grid item>{weatherDecription}</Grid>
 			</Grid>
 			<Grid item xs={4} container direction="column" justify="center" alignItems="center" className={classes.day}>
 				<Grid item>{temp}&deg;</Grid>

@@ -1,4 +1,4 @@
-import { url } from '../../api/openweather';
+import { apiKey, apiUrl5Day } from '../../api/openweather';
 
 export function itemsHasErrored(bool) {
 	return {
@@ -21,32 +21,29 @@ export function itemsFetchDataSuccess(items) {
 	};
 }
 
-export function itemsFetchData(url) {
-	return (dispatch) => {
-		dispatch(itemsIsLoading(true));
+export const itemsFetchData = (city) => {
+	return async function(dispatch) {
+		console.log('City', city);
+		const fullUrl = `${apiUrl5Day}?q=${city}&units=metric&cnt=15&lang=ru&APPID=${apiKey}`;
+		console.log(fullUrl, city);
+		const response = await fetch(fullUrl);
 
-		fetch(url)
-			.then((response) => {
-				if (!response.ok) {
-					throw Error(response.statusText);
-				}
-
-				dispatch(itemsIsLoading(false));
-
-				return response;
-			})
-			.then((response) => response.json())
-			.then((items) => dispatch(itemsFetchDataSuccess(items)))
-			.catch(() => dispatch(itemsHasErrored(true)));
-	};
-}
-
-export const fetchWeatherRequest = async () => {
-	const apiCall = await fetch(url);
-	const json = await apiCall.json();
-	const data = { cod: json.cod, city: json.city.name, list: json.list };
-	return {
-		type: 'FETCH',
-		payload: data
+		if (!response.ok) {
+			dispatch(itemsIsLoading(false));
+			dispatch(itemsHasErrored(true));
+			throw Error(response.statusText);
+		}
+		dispatch(itemsIsLoading(false));
+		const json = await response.json();
+		const data = { cod: json.cod, city: json.city.name, list: json.list };
+		dispatch(itemsFetchDataSuccess(data));
 	};
 };
+
+export function setCity(city) {
+	console.log('SET_CITY', city);
+	return {
+		type: 'SET_CITY',
+		city
+	};
+}

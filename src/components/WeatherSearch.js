@@ -1,41 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { setCity } from '../store/actions';
 
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import InputBase from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 
-const WeatherSearch = ({ city }) => {
+const WeatherSearch = ({ city, onSetCity }) => {
 	const [ value, setValue ] = useState('');
+	useEffect(
+		() => {
+			if (city !== undefined) {
+				setValue(city);
+			}
+		},
+		[ city ]
+	);
+
+	const useStyles = makeStyles((theme) => ({
+		input: {
+			color: '#fff',
+			textAlign: 'center',
+			fontSize: '40px',
+			fontWeight: '300',
+			margin: '16px 32px 32px'
+		},
+		button: {
+			color: '#fff'
+		}
+	}));
+
+	const classes = useStyles();
 
 	return (
-		<Grid item xs={10} container justify="center" alignItems="center">
-			<Grid item xs={1} />
-			<Grid item xs={8}>
-				<InputBase
-					type="text"
-					defaultValue={city}
-					inputProps={{ 'aria-label': 'naked' }}
-					style={{
-						color: '#fff',
-						textAlign: 'center',
-						fontSize: '40px',
-						fontWeight: '300',
-						margin: '16px 32px 32px',
-						border: 'none'
-					}}
-					onChange={() => setValue(value)}
-				/>
-			</Grid>
-			<Grid item xs={1}>
-				<Button style={{ color: '#fff' }}>Go</Button>
-			</Grid>
-		</Grid>
+		<form onSubmit={(e) => onSetCity(e, value)}>
+			<Grid item xs={10} container justify="center" alignItems="center">
+				<Grid item xs={1} />
+
+				<Grid item xs={8}>
+					<InputBase
+						className={classes.input}
+						defaultValue={city}
+						type="text"
+						onChange={(e) => setValue(e.target.value)}
+						inputProps={{ 'aria-label': 'naked' }}
+					/>
+				</Grid>
+				<Grid item xs={1}>
+					<Button className={classes.button}>Go</Button>
+				</Grid>
+			</Grid>{' '}
+		</form>
 	);
 };
 
 const mapStateToProps = ({ weather }) => {
-	return { city: 'weather.city' };
+	return { city: weather.city };
 };
 
-export default connect(mapStateToProps)(WeatherSearch);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onSetCity: (e, value) => {
+			e.preventDefault();
+			dispatch(setCity(value));
+		}
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WeatherSearch);

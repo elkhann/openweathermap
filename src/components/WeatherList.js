@@ -9,15 +9,15 @@ const WeatherList = ({ weather }) => {
 	const useStyles = makeStyles((theme) => ({
 		grid: {
 			backgroundColor: '#4876c2',
-			margin: 8
+			marginBottom: 16
 		}
 	}));
 
 	const classes = useStyles();
-	// weather.cod === '200'
+
 	return (
 		<React.Fragment>
-			{true ? (
+			{weather.cod === '200' ? (
 				weather.list.map((dayData, index) => {
 					return (
 						<Grid
@@ -25,7 +25,6 @@ const WeatherList = ({ weather }) => {
 							item
 							xs={10}
 							container
-							spacing={4}
 							justify="center"
 							alignItems="center"
 							className={classes.grid}
@@ -35,14 +34,14 @@ const WeatherList = ({ weather }) => {
 					);
 				})
 			) : (
-				'loading'
+				''
 			)}
 		</React.Fragment>
 	);
 };
 
 const mapStateToProps = ({ weather }) => {
-	return { weather };
+	return { weather: weather.weatherData };
 };
 
 export default connect(mapStateToProps)(WeatherList);
