@@ -48,7 +48,9 @@ const WeatherSearch = ({ city, onSetCity }) => {
 					/>
 				</Grid>
 				<Grid item xs={1}>
-					<Button className={classes.button}>Go</Button>
+					<Button onClick={(e) => onSetCity(e, value)} className={classes.button}>
+						Go
+					</Button>
 				</Grid>
 			</Grid>{' '}
 		</form>
