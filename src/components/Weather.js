@@ -1,5 +1,6 @@
 import React from 'react';
 import Cities from './Cities';
+import CityAdd from './CityAdd';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -23,6 +24,7 @@ const Weather = () => {
         className={classes.grid}
       >
         <React.Fragment>
+          <CityAdd />
           <Cities />
         </React.Fragment>
       </Grid>

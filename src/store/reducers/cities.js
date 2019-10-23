@@ -13,7 +13,15 @@ const cities = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_CITY':
       console.log('ADD_CITY');
-      return [...state, action.city];
+      const newStateForAdd = [...state];
+      newStateForAdd.push({
+        cityName: action.city,
+        weatherData: {},
+        hasErrored: false,
+        isLoading: false
+      });
+      console.log(newStateForAdd);
+      return [...newStateForAdd];
     case 'DELETE_CITY':
       console.log('DELETE_CITY');
       return [...state];

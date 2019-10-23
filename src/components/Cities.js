@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import City from './City';
+import { itemsFetchData } from '../store/actions';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
-const Weather = ({ cities }) => {
+const Weather = ({ cities, fetchData }) => {
   const useStyles = makeStyles(theme => ({
     grid: {
       marginTop: '0'
@@ -37,7 +38,7 @@ const Weather = ({ cities }) => {
                 alignItems='center'
                 className={classes.gridIttem}
               >
-                <City city={city} index={index} />
+                <City city={city} index={index} fetchData={fetchData} />
               </Grid>
             );
           })
@@ -50,4 +51,14 @@ const mapStateToProps = ({ cities }) => {
   return { cities: cities };
 };
 
-export default connect(mapStateToProps)(Weather);
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchData: (city, country, index) =>
+      dispatch(itemsFetchData(city, country, index))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Weather);

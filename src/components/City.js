@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { itemsFetchData } from '../store/actions';
 import moment from 'moment';
 import 'moment/locale/ru';
 
@@ -8,31 +6,28 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import '../css/owfont-master/css/owfont-regular.css';
 
-const WeatherListDay = ({ city, index, cities, fetchData }) => {
+const City = ({ city, index, fetchData }) => {
   const { cityName, country } = city;
 
   useEffect(() => {
-    if (cityName !== undefined) {
+    if (cityName) {
       fetchData(cityName, country, index);
     }
   }, [cityName, country, index, fetchData]);
 
   let dayData,
     day,
-    time,
     weatherId,
     weatherDecription,
     temp = '';
 
-  if (cities[index].weatherData.list) {
-    dayData = cities[index].weatherData.list[0];
+  if (city.weatherData.cod) {
+    dayData = city.weatherData.list[0];
     day = moment.unix(dayData.dt).format('D MMMM');
-    time = moment.unix(dayData.dt).format('HH:mm');
     weatherId = dayData.weather[0].id;
     weatherDecription = dayData.weather[0].description;
     temp = Math.round(dayData.main.temp);
   }
-  console.log(day);
 
   moment.locale('ru');
 
@@ -128,18 +123,4 @@ const WeatherListDay = ({ city, index, cities, fetchData }) => {
   );
 };
 
-const mapStateToProps = ({ cities }) => {
-  return { cities };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchData: (city, country, index) =>
-      dispatch(itemsFetchData(city, country, index))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WeatherListDay);
+export default City;
