@@ -1,11 +1,9 @@
 import { apiKey, apiUrl5Day } from '../../api/openweather';
 
-export function itemsHasErrored(error, index = 0) {
-	console.log(error);
+export function itemsHasErrored(error) {
 	return {
 		type: 'ITEMS_HAS_ERRORED',
-		hasErrored: error,
-		index
+		error
 	};
 }
 
@@ -41,7 +39,8 @@ export const itemsFetchData = (city, country, index) => {
 		dispatch(itemsIsLoading(true, index));
 		if (!response.ok) {
 			dispatch(itemsIsLoading(false, index));
-			dispatch(itemsHasErrored(response.statusText, index));
+			console.log('Fetch Error', response.statusText);
+			dispatch(itemsHasErrored(response.statusText));
 			throw Error(response.statusText);
 		}
 		dispatch(itemsIsLoading(false, index));
@@ -57,15 +56,18 @@ export function checkCity(value, cities) {
 			return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 		};
 		const normalizeCity = capitalize(value);
-		const checkToMatch = cities.find((item) => {
+		const checkToMatch = cities.findIndex((item) => {
 			return capitalize(item.cityName) === normalizeCity;
 		});
 
-		if (checkToMatch) {
-			dispatch(itemsHasErrored(`City ${checkToMatch.cityName} alredy existed`));
-			throw Error(`City ${checkToMatch.cityName} alredy existed`);
+		if (checkToMatch > 0) {
+			const error = `${cities[checkToMatch].cityName} alredy added`;
+			dispatch(itemsHasErrored(error));
+			throw Error(error);
 		}
 		const city = normalizeCity;
-		dispatch(addCity(city));
+		// dispatch(addCity(city));
+		dispatch(itemsFetchData());
+		dispatch(itemsHasErrored(false));
 	};
 }

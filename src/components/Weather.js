@@ -3,33 +3,22 @@ import Cities from './Cities';
 import CityAdd from './CityAdd';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 
 const Weather = () => {
-  const useStyles = makeStyles(theme => ({
-    grid: {
-      background: '#2053b3',
-      padding: 16
-    }
-  }));
-  const classes = useStyles();
+	const useStyles = makeStyles((theme) => ({
+		container: {
+			background: '#2053b3'
+		}
+	}));
+	const classes = useStyles();
 
-  return (
-    <Container maxWidth='sm'>
-      <Grid
-        container
-        justify='center'
-        alignItems='center'
-        className={classes.grid}
-      >
-        <React.Fragment>
-          <CityAdd />
-          <Cities />
-        </React.Fragment>
-      </Grid>
-    </Container>
-  );
+	return (
+		<Container maxWidth="sm" className={classes.container}>
+			<CityAdd />
+			<Cities />
+		</Container>
+	);
 };
 
 export default Weather;

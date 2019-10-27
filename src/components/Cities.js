@@ -5,35 +5,34 @@ import { itemsFetchData } from '../store/actions';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
 
 const Weather = ({ cities, fetchData }) => {
 	const useStyles = makeStyles((theme) => ({
-		grid: {
-			marginTop: '0'
+		cardGrid: {
+			paddingTop: theme.spacing(2),
+			paddingBottom: theme.spacing(2)
 		},
-		gridIttem: {
-			background: '#4876c2',
-			margin: 20
+		card: {
+			height: '100%',
+			display: 'flex',
+			flexDirection: 'column',
+			background: '#4876c2'
 		}
 	}));
 
 	const classes = useStyles();
 
 	return (
-		<Grid container justify="space-between" alignItems="center" className={classes.grid}>
+		<Grid container spacing={4} className={classes.cardGrid}>
 			{cities ? (
 				cities.map((city, index) => {
+					console.log(city);
 					return (
-						<Grid
-							key={city.cityName}
-							item
-							xs={5}
-							container
-							justify="center"
-							alignItems="center"
-							className={classes.gridIttem}
-						>
-							<City city={city} index={index} fetchData={fetchData} />
+						<Grid item xs={6} key={city + index}>
+							<Card className={classes.card}>
+								<City city={city} index={index} fetchData={fetchData} />
+							</Card>
 						</Grid>
 					);
 				})
@@ -45,7 +44,7 @@ const Weather = ({ cities, fetchData }) => {
 };
 
 const mapStateToProps = ({ cities }) => {
-	return { cities };
+	return { cities: cities };
 };
 
 const mapDispatchToProps = (dispatch) => {

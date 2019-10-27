@@ -37,8 +37,9 @@ const City = ({ city, index, fetchData }) => {
 	const useStyles = makeStyles((theme) => ({
 		city: {
 			color: '#fff',
-			height: '100px',
-			margin: '14px'
+			height: '100%',
+			paddingTop: theme.spacing(2),
+			paddingBottom: theme.spacing(2)
 		},
 		cityName: {
 			fontSize: '20px'
@@ -63,7 +64,7 @@ const City = ({ city, index, fetchData }) => {
 	const classes = useStyles();
 
 	return (
-		<React.Fragment>
+		<div>
 			{dayData && (
 				<Grid
 					item
@@ -72,6 +73,7 @@ const City = ({ city, index, fetchData }) => {
 					direction="row"
 					justify="center"
 					alignItems="center"
+					spacing={2}
 					className={classes.city}
 				>
 					<Grid item xs={7} container justify="center" alignItems="center" className={classes.cityName}>
@@ -101,7 +103,7 @@ const City = ({ city, index, fetchData }) => {
 					</Grid>
 				</Grid>
 			)}
-		</React.Fragment>
+		</div>
 	);
 };
 

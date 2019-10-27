@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { checkCity } from '../store/actions';
+import Error from './Error';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+
+import Card from '@material-ui/core/Card';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
@@ -18,16 +21,21 @@ const CityAdd = ({ addCity, cities }) => {
 	};
 
 	const onAdd = (e) => {
-		if (value) {
-			addCity(e, value, cities);
+		e.preventDefault();
+		const newValue = value.trim();
+		if (newValue) {
+			addCity(e, newValue, cities);
 		}
 	};
 
 	const useStyles = makeStyles((theme) => ({
+		cardAddGrid: {
+			paddingTop: theme.spacing(4),
+			paddingBottom: theme.spacing(2)
+		},
 		root: {
 			color: '#fff',
 			background: '#4876c2',
-			padding: '2px 4px',
 			display: 'flex',
 			alignItems: 'center'
 		},
@@ -49,27 +57,33 @@ const CityAdd = ({ addCity, cities }) => {
 	const classes = useStyles();
 
 	return (
-		<Grid item xs={12} container justify="center" alignItems="center" className={classes.grid}>
-			<form onSubmit={(e) => onAdd(e)}>
-				<Paper className={classes.root}>
-					<InputBase
-						className={classes.input}
-						placeholder="Enter City"
-						inputProps={{ 'aria-label': 'add city' }}
-						onChange={(e) => inputChange(e)}
-					/>
+		<Grid container className={classes.cardAddGrid}>
+			<Grid item xs={12}>
+				<Card>
+					<form onSubmit={(e) => onAdd(e)}>
+						<Paper className={classes.root}>
+							<InputBase
+								className={classes.input}
+								placeholder="Enter City"
+								inputProps={{ 'aria-label': 'add city' }}
+								onChange={(e) => inputChange(e)}
+							/>
 
-					<Divider className={classes.divider} orientation="vertical" />
-					<IconButton
-						onClick={(e) => onAdd(e)}
-						color="primary"
-						className={classes.iconButton}
-						aria-label="directions"
-					>
-						Add
-					</IconButton>
-				</Paper>
-			</form>
+							<Divider className={classes.divider} orientation="vertical" />
+							<IconButton
+								onClick={(e) => onAdd(e)}
+								color="primary"
+								className={classes.iconButton}
+								aria-label="directions"
+							>
+								Add
+							</IconButton>
+						</Paper>
+					</form>
+				</Card>
+			</Grid>
+
+			<Error />
 		</Grid>
 	);
 };
@@ -81,8 +95,6 @@ const mapStateToProps = ({ cities }) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		addCity: (e, value, cities) => {
-			console.log(cities);
-			e.preventDefault();
 			dispatch(checkCity(value, cities));
 		}
 	};
