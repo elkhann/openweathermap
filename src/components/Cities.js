@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import City from './City';
-import { itemsFetchData } from '../store/actions';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 
-const Weather = ({ cities, fetchData }) => {
+const Weather = ({ cities }) => {
 	const useStyles = makeStyles((theme) => ({
 		cardGrid: {
 			paddingTop: theme.spacing(2),
@@ -18,6 +17,12 @@ const Weather = ({ cities, fetchData }) => {
 			display: 'flex',
 			flexDirection: 'column',
 			background: '#4876c2'
+		},
+		empty: {
+			color: '#fff',
+			background: '#4876c2',
+			height: '100%',
+			padding: theme.spacing(2)
 		}
 	}));
 
@@ -25,32 +30,29 @@ const Weather = ({ cities, fetchData }) => {
 
 	return (
 		<Grid container spacing={4} className={classes.cardGrid}>
-			{cities ? (
-				cities.map((city, index) => {
-					console.log(city);
+			{cities.length ? (
+				cities.map((city) => {
 					return (
-						<Grid item xs={6} key={city + index}>
+						<Grid item xs={6} key={city.city}>
 							<Card className={classes.card}>
-								<City city={city} index={index} fetchData={fetchData} />
+								<City city={city} />
 							</Card>
 						</Grid>
 					);
 				})
 			) : (
-				''
+				<Grid item xs={12}>
+					<Card className={classes.grid}>
+						<Grid className={classes.empty}>Enter city to search</Grid>
+					</Card>
+				</Grid>
 			)}
 		</Grid>
 	);
 };
 
 const mapStateToProps = ({ cities }) => {
-	return { cities: cities };
+	return { cities };
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		fetchData: (city, country, index) => dispatch(itemsFetchData(city, country, index))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Weather);
+export default connect(mapStateToProps)(Weather);

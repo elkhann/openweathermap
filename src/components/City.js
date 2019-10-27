@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import moment from 'moment';
 import 'moment/locale/ru';
 
@@ -6,26 +6,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import '../css/owfont-master/css/owfont-regular.css';
 
-const City = ({ city, index, fetchData }) => {
-	const { cityName, country } = city;
-
-	useEffect(
-		() => {
-			if (cityName) {
-				fetchData(cityName, country, index);
-			}
-		},
-		[ cityName, country, index, fetchData ]
-	);
-
+const City = ({ city }) => {
 	let dayData,
 		day,
 		weatherId,
 		weatherDecription,
 		temp = '';
 
-	if (city.weatherData.cod) {
-		dayData = city.weatherData.list[0];
+	if (city.cod === '200') {
+		dayData = city.list[0];
 		day = moment.unix(dayData.dt).format('D MMMM');
 		weatherId = dayData.weather[0].id;
 		weatherDecription = dayData.weather[0].description;
@@ -77,7 +66,7 @@ const City = ({ city, index, fetchData }) => {
 					className={classes.city}
 				>
 					<Grid item xs={7} container justify="center" alignItems="center" className={classes.cityName}>
-						{cityName}
+						{`${city.city}, ${city.country}`}
 					</Grid>
 					<Grid item xs={5} container justify="center" alignItems="center" className={classes.date}>
 						{day}

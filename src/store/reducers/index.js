@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
 import cities from './cities';
-import error from './error';
+import fetch from './fetch';
 
 export default combineReducers({
 	cities,
-	error
+	fetch
 });

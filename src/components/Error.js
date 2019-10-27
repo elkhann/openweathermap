@@ -38,8 +38,8 @@ const Error = ({ error }) => {
 	);
 };
 
-const mapStateToProps = ({ error }) => {
-	return { error };
+const mapStateToProps = ({ fetch }) => {
+	return { error: fetch.hasError };
 };
 
 export default connect(mapStateToProps)(Error);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { checkCity } from '../store/actions';
@@ -14,19 +14,25 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 
 const CityAdd = ({ addCity, cities }) => {
-	const [ value, setValue ] = useState('');
+	const [ cityValue, setCityValue ] = useState('');
 	const inputChange = (e) => {
-		const value = e.target.value;
-		setValue(value);
+		const cityValue = e.target.value;
+		setCityValue(cityValue);
 	};
 
 	const onAdd = (e) => {
 		e.preventDefault();
-		const newValue = value.trim();
-		if (newValue) {
-			addCity(e, newValue, cities);
+		const city = cityValue.trim();
+		if (city) {
+			addCity(city, cities);
 		}
+		setCityValue('');
 	};
+
+	useEffect(() => {
+		addCity('Lviv', cities);
+		addCity('Yalta', cities);
+	}, []);
 
 	const useStyles = makeStyles((theme) => ({
 		cardAddGrid: {
@@ -63,6 +69,7 @@ const CityAdd = ({ addCity, cities }) => {
 					<form onSubmit={(e) => onAdd(e)}>
 						<Paper className={classes.root}>
 							<InputBase
+								value={cityValue}
 								className={classes.input}
 								placeholder="Enter City"
 								inputProps={{ 'aria-label': 'add city' }}
@@ -94,8 +101,8 @@ const mapStateToProps = ({ cities }) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		addCity: (e, value, cities) => {
-			dispatch(checkCity(value, cities));
+		addCity: (city, cities) => {
+			dispatch(checkCity(city, cities));
 		}
 	};
 };
