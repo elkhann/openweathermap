@@ -8,7 +8,6 @@ import configureStore from './store/configureStore';
 import * as serviceWorker from './serviceWorker';
 
 const { store, persistor } = configureStore();
-console.log(store);
 render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
