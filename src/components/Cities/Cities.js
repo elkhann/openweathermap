@@ -1,7 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import City from './City';
+import City from '../../containers/Cities/City';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -52,8 +50,4 @@ const Weather = ({ cities }) => {
   );
 };
 
-const mapStateToProps = ({ cities }, history) => {
-  return { cities, history };
-};
-
-export default withRouter(connect(mapStateToProps)(Weather));
+export default Weather;

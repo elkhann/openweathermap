@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-
-import { checkCity } from '../../store/actions';
-import Error from './Error';
+import React from 'react';
+import Error from '../../containers/Cities/Error';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -13,22 +10,7 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 
-const CityAdd = ({ addCity, cities }) => {
-  const [cityValue, setCityValue] = useState('');
-  const inputChange = e => {
-    const cityValue = e.target.value;
-    setCityValue(cityValue);
-  };
-
-  const onAdd = e => {
-    e.preventDefault();
-    const city = cityValue.trim();
-    if (city) {
-      addCity(city, cities);
-    }
-    setCityValue('');
-  };
-
+const CityAdd = ({ cityValue, onAdd, inputChange }) => {
   const useStyles = makeStyles(theme => ({
     cardAddGrid: {
       paddingTop: theme.spacing(4),
@@ -90,19 +72,4 @@ const CityAdd = ({ addCity, cities }) => {
   );
 };
 
-const mapStateToProps = ({ cities }) => {
-  return { cities };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    addCity: (city, cities) => {
-      dispatch(checkCity(city, cities));
-    }
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CityAdd);
+export default CityAdd;

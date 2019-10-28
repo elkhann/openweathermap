@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Header from './components/Header';
-import OpenWeather from './components/OpenWeather';
+import OpenWeather from './containers/OpenWeather';
 
 const App = () => {
   return (

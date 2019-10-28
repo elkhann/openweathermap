@@ -1,22 +1,15 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { checkCity } from '../store/actions';
+import React from 'react';
 import { BrowserRouter as Switch, Route } from 'react-router-dom';
 
-import Cities from './Cities/Cities';
-import CityAdd from './Cities/CityAdd';
+import Cities from '../containers/Cities/Cities';
+import CityAdd from '../containers/Cities/CityAdd';
 
-import WeatherInCity from './CityWeather/WeatherList';
+import WeatherList from '../containers/CityWeather/WeatherList';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-const OpenWeather = ({ addCity, cities }) => {
-  useEffect(() => {
-    addCity('Lviv', cities);
-    addCity('Yalta', cities);
-  }, []);
-
+const OpenWeather = () => {
   const useStyles = makeStyles(theme => ({
     container: {
       background: '#2053b3'
@@ -32,26 +25,11 @@ const OpenWeather = ({ addCity, cities }) => {
           <Cities />
         </Route>
         <Route path='/weather/:id'>
-          <WeatherInCity />
+          <WeatherList />
         </Route>
       </Switch>
     </Container>
   );
 };
 
-const mapStateToProps = ({ cities }) => {
-  return { cities };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    addCity: (city, cities) => {
-      dispatch(checkCity(city, cities));
-    }
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OpenWeather);
+export default OpenWeather;

@@ -1,9 +1,6 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
-
-import WeatherDay from './WeatherDay';
+import WeatherDay from '../../containers/CityWeather/WeatherDay';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -15,14 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import '../../css/owfont-master/css/owfont-regular.css';
 
-const WeatherList = ({ cities }) => {
-  const history = useHistory();
-  let { id } = useParams();
-
-  const city = cities.find(city => {
-    return city.city === id;
-  });
-
+const WeatherList = ({ history, city }) => {
   const useStyles = makeStyles(theme => ({
     cardAddGrid: {
       paddingTop: theme.spacing(4),
@@ -97,8 +87,4 @@ const WeatherList = ({ cities }) => {
   );
 };
 
-const mapStateToProps = ({ cities }) => {
-  return { cities };
-};
-
-export default connect(mapStateToProps)(WeatherList);
+export default WeatherList;
