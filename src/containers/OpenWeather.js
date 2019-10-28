@@ -4,10 +4,10 @@ import { checkCity } from '../store/actions';
 import OpenWeather from '../components/OpenWeather';
 
 const OpenWeatherContainer = ({ addCity, cities }) => {
-  useEffect(() => {
-    addCity('Lviv', cities);
-    addCity('Yalta', cities);
-  }, []);
+  // useEffect(() => {
+  //   addCity('Lviv', cities);
+  //   addCity('Yalta', cities);
+  // }, []);
 
   return <OpenWeather />;
 };
