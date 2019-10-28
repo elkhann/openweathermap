@@ -1,13 +1,13 @@
 import React from 'react';
 
 import Header from './components/Header';
-import Weather from './components/Weather';
+import OpenWeather from './components/OpenWeather';
 
 const App = () => {
   return (
     <div className='App'>
       <Header />
-      <Weather />
+      <OpenWeather />
     </div>
   );
 };
