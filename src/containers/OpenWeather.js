@@ -1,30 +1,41 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { checkCity } from '../store/actions';
+import { fetchByType } from '../store/actions';
 import OpenWeather from '../components/OpenWeather';
 
-const OpenWeatherContainer = ({ addCity, cities }) => {
-  // useEffect(() => {
-  //   addCity('Lviv', cities);
-  //   addCity('Yalta', cities);
-  // }, []);
+const OpenWeatherContainer = ({ cities, fetchByType }) => {
+	useEffect(
+		() => {
+			navigator.geolocation.getCurrentPosition(function(location) {
+				const lat = Math.round(location.coords.latitude);
+				const lon = Math.round(location.coords.longitude);
+				const city = {
+					coord: {
+						lat,
+						lon
+					}
+				};
+				const type = 'BY_COORD';
 
-  return <OpenWeather />;
+				fetchByType(city, cities, type);
+			});
+		},
+		[ fetchByType ]
+	);
+
+	return <OpenWeather />;
 };
 
 const mapStateToProps = ({ cities }) => {
-  return { cities };
+	return { cities };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addCity: (city, cities) => {
-      dispatch(checkCity(city, cities));
-    }
-  };
+const mapDispatchToProps = (dispatch) => {
+	return {
+		fetchByType: (city, cities, type) => {
+			dispatch(fetchByType(city, cities, type));
+		}
+	};
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OpenWeatherContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(OpenWeatherContainer);
