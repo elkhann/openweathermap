@@ -1,5 +1,5 @@
 import React from 'react';
-import City from '../../containers/Cities/City';
+import City from './City';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -12,15 +12,11 @@ const Weather = ({ cities }) => {
       paddingBottom: theme.spacing(2)
     },
     card: {
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
       background: '#4876c2'
     },
     empty: {
       color: '#fff',
       background: '#4876c2',
-      height: '100%',
       padding: theme.spacing(2)
     }
   }));
@@ -32,7 +28,7 @@ const Weather = ({ cities }) => {
       {cities.length ? (
         cities.map(city => {
           return (
-            <Grid item xs={6} key={city.city}>
+            <Grid item xs={6} key={city.id}>
               <Card className={classes.card}>
                 <City city={city} />
               </Card>

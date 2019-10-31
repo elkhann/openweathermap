@@ -1,18 +1,15 @@
 import React from 'react';
 
-import WeatherDay from '../../containers/CityWeather/WeatherDay';
+import WeatherDay from './WeatherDay';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-
 import Card from '@material-ui/core/Card';
 import Paper from '@material-ui/core/Paper';
-
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import '../../css/owfont-master/css/owfont-regular.css';
 
-const WeatherList = ({ history, city, onDelete }) => {
+const WeatherList = ({ city, onBack, onDelete }) => {
   const useStyles = makeStyles(theme => ({
     cardAddGrid: {
       paddingTop: theme.spacing(4),
@@ -70,7 +67,7 @@ const WeatherList = ({ history, city, onDelete }) => {
               </IconButton>
               <Divider className={classes.divider} orientation='vertical' />
               <IconButton
-                onClick={() => history.push('/')}
+                onClick={() => onBack()}
                 color='primary'
                 className={classes.iconButton}
                 aria-label='directions'
@@ -82,11 +79,17 @@ const WeatherList = ({ history, city, onDelete }) => {
         </Grid>
       </Grid>
       <Grid container spacing={4} className={classes.cardGrid}>
-        {city.list.map(list => {
+        {city.listWeather.map(list => {
           return (
-            <Grid item xs={12} key={list.dt}>
+            <Grid item xs={12} key={list.id}>
               <Card className={classes.card}>
-                <WeatherDay list={list} />
+                <WeatherDay
+                  date={list.date}
+                  time={list.time}
+                  iconId={list.iconId}
+                  description={list.description}
+                  temp={list.temp}
+                />
               </Card>
             </Grid>
           );

@@ -1,4 +1,6 @@
 import { apiKey, apiUrl5Day } from '../../api/openweather';
+import moment from 'moment';
+import 'moment/locale/ru';
 
 export function itemsHasErrored(error) {
   return {
@@ -21,8 +23,13 @@ export function itemsFetchDataSuccess(data) {
   };
 }
 
-const capitalize = name => {
-  return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+export const deleteCity = ({ city }) => {
+  return function(dispatch) {
+    return dispatch({
+      type: 'DELETE_CITY',
+      city
+    });
+  };
 };
 
 export function checkCity(city, cities) {
@@ -30,7 +37,13 @@ export function checkCity(city, cities) {
     dispatch(itemsHasErrored(false));
 
     let name = '',
-      country = '';
+      country = '',
+      checkToMatchCoord = '',
+      hasError = '';
+
+    const capitalize = name => {
+      return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    };
 
     if (city && city.name) {
       [name, country] = city.name.split(/[ ,]+/);
@@ -44,10 +57,8 @@ export function checkCity(city, cities) {
     if (checkToMatchName) {
       const error = `${checkToMatchName.city} alredy added`;
       return dispatch(itemsHasErrored(error));
-      // throw Error(error);
     }
 
-    let checkToMatchCoord = '';
     if (city.coord) {
       checkToMatchCoord = cities.find(item => {
         return (
@@ -56,19 +67,16 @@ export function checkCity(city, cities) {
       });
     }
 
-    let hasError = '';
     if (checkToMatchCoord) {
-      hasError = 'allready fetch';
+      hasError = 'allready fetched';
     }
 
-    const newCity = {
+    return {
       ...city,
       name: name,
       country: country ? `,${country}` : '',
       hasError
     };
-
-    return newCity;
   };
 }
 
@@ -84,13 +92,29 @@ export const fetchData = url => {
     const json = await response.json();
     const data = {
       cod: json.cod,
+      id: json.city.id,
       city: json.city.name,
       country: json.city.country,
       coord: {
         lat: Math.round(json.city.coord.lat * 10) / 10,
         lon: Math.round(json.city.coord.lon * 10) / 10
       },
-      list: json.list
+      dayWeather: {
+        date: moment.unix(json.list[0].dt).format('D MMMM'),
+        temp: Math.round(json.list[0].main.temp),
+        iconId: json.list[0].weather[0].id,
+        description: json.list[0].weather[0].description
+      },
+      listWeather: json.list.map(item => {
+        return {
+          id: item.dt,
+          date: moment.unix(item.dt).format('D MMMM'),
+          time: moment.unix(item.dt).format('HH:mm'),
+          temp: Math.round(item.main.temp),
+          iconId: item.weather[0].id,
+          description: item.weather[0].description
+        };
+      })
     };
     dispatch(itemsFetchDataSuccess(data));
   };
@@ -113,17 +137,8 @@ export const fetchByType = (city, cities, type) => {
           return dispatch(fetchData(urlWithCoord));
 
         default:
-          return 'dont city type';
+          return dispatch(itemsHasErrored('Dont city type'));
       }
     }
-  };
-};
-
-export const deleteCity = ({ city }) => {
-  return function(dispatch) {
-    return dispatch({
-      type: 'DELETE_CITY',
-      city
-    });
   };
 };

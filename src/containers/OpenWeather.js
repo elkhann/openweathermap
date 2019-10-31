@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+
 import { fetchByType } from '../store/actions';
 import OpenWeather from '../components/OpenWeather';
 
@@ -20,7 +21,7 @@ const OpenWeatherContainer = ({ cities, fetchByType }) => {
     });
   }, [fetchByType, cities]);
 
-  return <OpenWeather />;
+  return <OpenWeather cities={cities} />;
 };
 
 const mapStateToProps = ({ cities }) => {

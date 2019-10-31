@@ -1,9 +1,8 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { deleteCity } from '../../store/actions';
 
+import { deleteCity } from '../../store/actions';
 import WeatherList from '../../components/CityWeather/WeatherList';
 
 const WeatherListContainer = ({ cities, deleteCity }) => {
@@ -14,12 +13,16 @@ const WeatherListContainer = ({ cities, deleteCity }) => {
     return city.city === id;
   });
 
-  const onDelete = city => {
-    deleteCity(city);
+  const onBack = () => {
     history.push('/');
   };
 
-  return <WeatherList history={history} city={city} onDelete={onDelete} />;
+  const onDelete = city => {
+    history.push('/');
+    deleteCity(city);
+  };
+
+  return <WeatherList onBack={onBack} city={city} onDelete={onDelete} />;
 };
 
 const mapStateToProps = ({ cities }) => {

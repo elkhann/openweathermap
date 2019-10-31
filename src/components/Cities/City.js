@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import '../../css/owfont-master/css/owfont-regular.css';
 
-const City = ({ city, day, weatherId, weatherDecription, temp }) => {
+const City = ({ city }) => {
   const useStyles = makeStyles(theme => ({
     link: {
       textDecoration: 'none'
@@ -17,29 +17,30 @@ const City = ({ city, day, weatherId, weatherDecription, temp }) => {
       paddingBottom: theme.spacing(2)
     },
     cityName: {
-      fontSize: '20px'
+      fontSize: '16px',
+      textAlign: 'center'
     },
     date: {
       fontSize: '16px',
-      textAlign: 'center',
-      lineHeight: 1.2
+      textAlign: 'center'
     },
     description: {
       fontSize: '16px',
-      textAlign: 'center',
-      lineHeight: 1.2
+      textAlign: 'center'
     },
     deg: {
       fontSize: '28px',
-      textAlign: 'center',
-      lineHeight: 1.2
+      textAlign: 'center'
     }
   }));
 
   const classes = useStyles();
 
   return (
-    <Link to={`/weather/${city.city}`} className={classes.link}>
+    <Link
+      to={{ pathname: `/weather/${city.city}`, city: { city } }}
+      className={classes.link}
+    >
       <Grid
         item
         xs={12}
@@ -68,7 +69,7 @@ const City = ({ city, day, weatherId, weatherDecription, temp }) => {
           alignItems='center'
           className={classes.date}
         >
-          {day}
+          {city.dayWeather.date}
         </Grid>
         <Grid
           item
@@ -80,10 +81,10 @@ const City = ({ city, day, weatherId, weatherDecription, temp }) => {
           className={classes.description}
         >
           <Grid item container justify='center' alignItems='center'>
-            <i className={`owf owf-${weatherId} owf-2x`} />
+            <i className={`owf owf-${city.dayWeather.iconId} owf-2x`} />
           </Grid>
           <Grid item container justify='center' alignItems='center'>
-            {weatherDecription}
+            {city.dayWeather.description}
           </Grid>
         </Grid>
         <Grid
@@ -94,7 +95,7 @@ const City = ({ city, day, weatherId, weatherDecription, temp }) => {
           alignItems='center'
           className={classes.deg}
         >
-          {temp}&deg;
+          {city.dayWeather.temp}&deg;
         </Grid>
       </Grid>
     </Link>

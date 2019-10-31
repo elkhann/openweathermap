@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import '../../css/owfont-master/css/owfont-regular.css';
 
-const WeatherDay = ({ day, time, weatherId, weatherDecription, temp }) => {
+const WeatherDay = ({ date, time, iconId, description, temp }) => {
   const useStyles = makeStyles(theme => ({
     list: {
       color: '#fff',
@@ -28,7 +28,7 @@ const WeatherDay = ({ day, time, weatherId, weatherDecription, temp }) => {
       className={classes.list}
     >
       <Grid item xs={3} container justify='center' alignItems='center'>
-        {day}
+        {date}
       </Grid>
       <Grid item xs={3} container justify='center' alignItems='center'>
         {time}
@@ -42,10 +42,10 @@ const WeatherDay = ({ day, time, weatherId, weatherDecription, temp }) => {
         alignItems='center'
       >
         <Grid item container justify='center' alignItems='center'>
-          <i className={`owf owf-${weatherId} owf-2x`} />
+          <i className={`owf owf-${iconId} owf-2x`} />
         </Grid>
         <Grid item container justify='center' alignItems='center'>
-          {weatherDecription}
+          {description}
         </Grid>
       </Grid>
       <Grid item xs={3} container justify='center' alignItems='center'>
