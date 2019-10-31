@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import { deleteCity } from '../../store/actions';
 import WeatherList from '../../components/CityWeather/WeatherList';
@@ -18,11 +19,18 @@ const WeatherListContainer = ({ cities, deleteCity }) => {
   };
 
   const onDelete = city => {
-    history.push('/');
     deleteCity(city);
   };
 
-  return <WeatherList onBack={onBack} city={city} onDelete={onDelete} />;
+  return (
+    <Fragment>
+      {city ? (
+        <WeatherList onBack={onBack} city={city} onDelete={onDelete} />
+      ) : (
+        <Redirect to='/' />
+      )}
+    </Fragment>
+  );
 };
 
 const mapStateToProps = ({ cities }) => {
