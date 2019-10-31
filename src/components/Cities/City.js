@@ -37,10 +37,7 @@ const City = ({ city }) => {
   const classes = useStyles();
 
   return (
-    <Link
-      to={{ pathname: `/weather/${city.city}`, city: { city } }}
-      className={classes.link}
-    >
+    <Link to={`/weather/${city.city}`} className={classes.link}>
       <Grid
         item
         xs={12}

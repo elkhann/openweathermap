@@ -36,22 +36,22 @@ export function checkCity(city, cities) {
   return function(dispatch) {
     dispatch(itemsHasErrored(false));
 
-    let name = '',
-      country = '',
+    let cityName = '',
+      countryName = '',
       checkToMatchCoord = '',
       hasError = '';
 
-    const capitalize = name => {
-      return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    const capitalize = cityName => {
+      return cityName.charAt(0).toUpperCase() + cityName.slice(1).toLowerCase();
     };
 
-    if (city && city.name) {
-      [name, country] = city.name.split(/[ ,]+/);
-      name = capitalize(name);
+    if (city && city.cityName) {
+      [cityName, countryName] = city.cityName.split(/[ ,]+/);
+      cityName = capitalize(cityName);
     }
 
     const checkToMatchName = cities.find(item => {
-      return item.city === name;
+      return item.city === cityName;
     });
 
     if (checkToMatchName) {
@@ -73,8 +73,8 @@ export function checkCity(city, cities) {
 
     return {
       ...city,
-      name: name,
-      country: country ? `,${country}` : '',
+      cityName: cityName,
+      countryName: countryName ? `,${countryName}` : '',
       hasError
     };
   };
@@ -126,8 +126,8 @@ export const fetchByType = (city, cities, type) => {
     if (!city.hasError) {
       switch (type) {
         case 'BY_CITY':
-          const name = city.name;
-          const urlWithName = `${apiUrl5Day}?q=${name}&units=metric&cnt=15&lang=ru&APPID=${apiKey}`;
+          const query = city.cityName + city.countryName;
+          const urlWithName = `${apiUrl5Day}?q=${query}&units=metric&cnt=15&lang=ru&APPID=${apiKey}`;
           return dispatch(fetchData(urlWithName));
 
         case 'BY_COORD':
