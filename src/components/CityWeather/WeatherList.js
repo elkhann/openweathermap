@@ -12,7 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import '../../css/owfont-master/css/owfont-regular.css';
 
-const WeatherList = ({ history, city }) => {
+const WeatherList = ({ history, city, onDelete }) => {
   const useStyles = makeStyles(theme => ({
     cardAddGrid: {
       paddingTop: theme.spacing(4),
@@ -59,6 +59,15 @@ const WeatherList = ({ history, city }) => {
           <Card>
             <Paper className={classes.root}>
               <h2 className={classes.header}>{city.city}</h2>
+              <Divider className={classes.divider} orientation='vertical' />
+              <IconButton
+                onClick={() => onDelete(city)}
+                color='primary'
+                className={classes.iconButton}
+                aria-label='directions'
+              >
+                Delete
+              </IconButton>
               <Divider className={classes.divider} orientation='vertical' />
               <IconButton
                 onClick={() => history.push('/')}
