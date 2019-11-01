@@ -9,7 +9,7 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 
-const CityAdd = ({ cityValue, onAdd, inputChange }) => {
+const CityAdd = ({ cityValue, handleSubmit, handleChange }) => {
   const useStyles = makeStyles(theme => ({
     cardAddGrid: {
       paddingTop: theme.spacing(4),
@@ -42,19 +42,19 @@ const CityAdd = ({ cityValue, onAdd, inputChange }) => {
     <Grid container className={classes.cardAddGrid}>
       <Grid item xs={12}>
         <Card>
-          <form onSubmit={e => onAdd(e)}>
+          <form onSubmit={e => handleSubmit(e)}>
             <Paper className={classes.root}>
               <InputBase
                 value={cityValue}
                 className={classes.input}
                 placeholder='Enter City'
                 inputProps={{ 'aria-label': 'add city' }}
-                onChange={e => inputChange(e)}
+                onChange={e => handleChange(e)}
               />
 
               <Divider className={classes.divider} orientation='vertical' />
               <IconButton
-                onClick={e => onAdd(e)}
+                onClick={e => handleSubmit(e)}
                 color='primary'
                 className={classes.iconButton}
                 aria-label='directions'

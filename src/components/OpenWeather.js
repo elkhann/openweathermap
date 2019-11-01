@@ -25,7 +25,7 @@ const OpenWeather = ({ cities }) => {
           <Cities />
         </Route>
         <Route path='/weather/:id'>
-          {cities.length > 0 ? <WeatherList /> : <Redirect to='/' />}
+          {cities.length ? <WeatherList /> : <Redirect to='/' />}
         </Route>
         <Route path='/weather'>
           <Redirect to='/' />

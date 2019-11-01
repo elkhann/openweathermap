@@ -6,12 +6,12 @@ import CityAdd from '../../components/Cities/CityAdd';
 
 const CityAddContainer = ({ addCity, cities }) => {
   const [cityValue, setCityValue] = useState('');
-  const inputChange = e => {
+  const handleChange = e => {
     const cityValue = e.target.value;
     setCityValue(cityValue);
   };
 
-  const onAdd = e => {
+  const handleSubmit = e => {
     e.preventDefault();
     const city = { cityName: cityValue.trim() };
     const type = 'BY_CITY';
@@ -22,7 +22,11 @@ const CityAddContainer = ({ addCity, cities }) => {
   };
 
   return (
-    <CityAdd inputChange={inputChange} onAdd={onAdd} cityValue={cityValue} />
+    <CityAdd
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+      cityValue={cityValue}
+    />
   );
 };
 
