@@ -1,10 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
-import Error from '../../components/Cities/Error';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+// import Error from '../../components/Cities/Error';
 
 const ErrorContainer = ({ error }) => {
-  return <Fragment>{error ? <Error error={error} /> : ''}</Fragment>;
+  const notify = error => toast(error);
+  if (error) {
+    notify(error);
+  }
+  return (
+    // <React.Fragment>
+    //   {error ? <Error error={error} /> : ''}
+    // </React.Fragment>
+    <ToastContainer />
+  );
 };
 
 const mapStateToProps = ({ fetch }) => {

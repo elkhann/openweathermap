@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchByType } from '../store/actions';
+import { fetchByType, itemsHasErrored } from '../store/actions';
 import OpenWeather from '../components/OpenWeather';
 
-const OpenWeatherContainer = ({ cities, fetchByType }) => {
+const OpenWeatherContainer = ({ cities, fetchByType, setError }) => {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(function(location) {
       const lat = Math.round(location.coords.latitude * 10) / 10;
@@ -21,6 +21,8 @@ const OpenWeatherContainer = ({ cities, fetchByType }) => {
     });
   }, [fetchByType, cities]);
 
+  setError(false);
+
   return <OpenWeather cities={cities} />;
 };
 
@@ -32,6 +34,9 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchByType: (city, cities, type) => {
       dispatch(fetchByType(city, cities, type));
+    },
+    setError: error => {
+      dispatch(itemsHasErrored(error));
     }
   };
 };
