@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+
 import { fetchByType } from '../store/actions';
 import OpenWeather from '../components/OpenWeather';
 
