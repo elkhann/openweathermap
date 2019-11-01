@@ -33,9 +33,11 @@ const mapStateToProps = ({ cities }) => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchByType: (city, cities, type) => {
+      // Автоматический запрос погоды по координатам
       dispatch(fetchByType(city, cities, type));
     },
     setError: error => {
+      // Очистка ошибок перед обновлением страницы
       dispatch(itemsHasErrored(error));
     }
   };

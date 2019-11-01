@@ -16,9 +16,16 @@ export function itemsIsLoading(bool) {
   };
 }
 
-export function itemsFetchDataSuccess(data) {
+export function itemsFetchDataSuccess(bool) {
   return {
     type: 'ITEMS_FETCH_DATA_SUCCESS',
+    success: bool
+  };
+}
+
+export function addCity(data) {
+  return {
+    type: 'ADD_CITY',
     data
   };
 }
@@ -116,7 +123,8 @@ export const fetchData = url => {
         };
       })
     };
-    dispatch(itemsFetchDataSuccess(data));
+    dispatch(itemsFetchDataSuccess(true));
+    dispatch(addCity(data));
   };
 };
 

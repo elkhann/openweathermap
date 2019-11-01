@@ -2,7 +2,7 @@ const initialState = [];
 
 const cities = (state = initialState, action) => {
   switch (action.type) {
-    case 'ITEMS_FETCH_DATA_SUCCESS':
+    case 'ADD_CITY':
       return [...state, action.data];
     case 'DELETE_CITY':
       const newState = [...state];
