@@ -28,7 +28,7 @@ const Weather = ({ cities }) => {
       {cities.length ? (
         cities.map(city => {
           return (
-            <Grid item xs={6} key={city.id}>
+            <Grid item xs={6} key={`cities${city.id}`}>
               <Card className={classes.card}>
                 <City city={city} />
               </Card>
